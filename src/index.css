@@ -123,7 +123,7 @@ button:hover {
 
 .dots {
 	position: relative;
-	animation: bobbing 2s infinite alternate, opacityLoop 4s infinite alternate;
+	animation: bobbing 2s infinite alternate, opacityLoop 1s infinite alternate;
 }
 
 @keyframes bobbing {
