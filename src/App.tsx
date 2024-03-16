@@ -66,7 +66,7 @@ function App() {
       let message: { generated_text: string };
       do {
         const systemPrompt =
-          'Here is a conversation history. Just write a single line of text to continue the conversation as medibot. Do not write more than one line of text. \n\n';
+          'You are a AI medical assistant. Here is a conversation history. Just write a single line of text to continue the conversation as medibot. You need to triage as fast as possible. \n\n';
 
         const conversation = history
           .slice(-5)
