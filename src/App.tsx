@@ -73,9 +73,8 @@ function App() {
       let message;
       do {
         const systemPrompt =
-          'You are a professional medical assistant, here is a conversation between you and a patient. Respond to the patient in a professional manner.';
+          'You are a professional medical assistant, here is a conversation between you and a patient. Respond to the patient in a professional manner.\n\n';
 
-        // generate the conversation with the json.
         const conversation = history
           .map((message) => {
             return `${message.actor}: ${message.message}`;
@@ -83,7 +82,7 @@ function App() {
           .join('\n');
 
         message = await generateMessage({
-          inputs: systemPrompt + JSON.stringify(history.slice(-3)),
+          inputs: systemPrompt + conversation,
         });
         console.log(JSON.stringify(message, null, 2));
       } while (message.generated_text === '');
