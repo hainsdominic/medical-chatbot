@@ -66,17 +66,20 @@ function App() {
       let message: { generated_text: string };
       do {
         const systemPrompt =
-          "\n\nYou are a professional medical assistant, this is what you should respond:'.";
+          'Here is a conversation history. Just write a single line of text to continue the conversation as medibot. Do not write more than one line of text. \n\n';
 
         const conversation = history
+          .slice(-5)
           .map((message) => {
-            return `${message.message}`;
+            return `${message.actor}: ${message.message}`;
           })
           .join('\n');
 
         const newConversation = conversation + `\nuser: ${text}`;
 
-        const prompt = newConversation + systemPrompt;
+        const tailPrompt = '\nmedibot:';
+
+        const prompt = systemPrompt + newConversation + tailPrompt;
         console.log(prompt);
         message = await generateMessage({
           inputs: prompt,
@@ -92,7 +95,7 @@ function App() {
           message: text,
         },
         {
-          actor: 'bot',
+          actor: 'medibot',
           message: message.generated_text,
         },
       ]);
