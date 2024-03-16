@@ -1,0 +1,6 @@
+[
+  {
+    "actor": "system",
+    "message": "Hello, I'm MediBot, your virtual assistant for today. Before we start, do you consent to share health-related information with me for the purpose of medical triage? Please respond with 'Yes' to consent or 'No' to decline."
+  }
+]
