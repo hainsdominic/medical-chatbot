@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 function App() {
 	const chatBox = document.querySelector("main");
 	const chatInput = document.querySelector("input");
+	const [waiting, setWaiting] = useState(false);
+
 	const [messages, setMessages] = useState(
 		[] as {
 			side: string;
@@ -31,9 +33,11 @@ function App() {
 		if (text) {
 			appendMessage("user", text);
 			chatInput.value = "";
+			setWaiting(true);
 			setTimeout(() => {
-				appendMessage("bot", "Hello!");
-			}, 1000);
+				setWaiting(false);
+				appendMessage("bot", "Whatup!");
+			}, 3000);
 		}
 	}
 
@@ -52,10 +56,15 @@ function App() {
 							{message.text}
 						</div>
 					))}
+					{waiting && (
+						<div className="msg -bot bubble">
+							<div className="dots">•••</div>
+						</div>
+					)}
 				</main>
 				<form onSubmit={onSubmit}>
 					<input type="text" placeholder="Message..." />
-					<button type="submit"></button>
+					<button type="submit">➤</button>
 				</form>
 			</section>
 			<script type="text/javascript" src="index.js"></script>

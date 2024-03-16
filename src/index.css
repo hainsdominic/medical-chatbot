@@ -120,3 +120,32 @@ button {
 button:hover {
 	background: #666;
 }
+
+.dots {
+	position: relative;
+	animation: bobbing 2s infinite alternate, opacityLoop 4s infinite alternate;
+}
+
+@keyframes bobbing {
+	0% {
+		transform: translateY(2.5px);
+	}
+	50% {
+		transform: translateY(-2.5px);
+	}
+	100% {
+		transform: translateY(2.5px);
+	}
+}
+
+@keyframes opacityLoop {
+	0% {
+		color: rgb(188, 188, 188);
+	}
+	50% {
+		opacity: rgb(72, 72, 72);
+	}
+	100% {
+		opacity: rgb(188, 188, 188);
+	}
+}
