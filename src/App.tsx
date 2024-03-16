@@ -32,7 +32,7 @@ function App() {
   const chatBox = document.querySelector('main');
   const chatInput = document.querySelector('input');
   const [waiting, setWaiting] = useState(false);
-  const [history, setHistory] = useState([] as historyMessage[]);
+  const [history, setHistory] = useState(prompts as historyMessage[]);
 
   const [messages, setMessages] = useState(
     [] as {
@@ -62,32 +62,40 @@ function App() {
     if (text) {
       appendMessage('user', text);
       chatInput.value = '';
+      setWaiting(true);
+      let message: { generated_text: string };
+      do {
+        const systemPrompt =
+          "\n\nYou are a professional medical assistant, this is what you should respond:'.";
+
+        const conversation = history
+          .map((message) => {
+            return `${message.message}`;
+          })
+          .join('\n');
+
+        const newConversation = conversation + `\nuser: ${text}`;
+
+        const prompt = newConversation + systemPrompt;
+        console.log(prompt);
+        message = await generateMessage({
+          inputs: prompt,
+        });
+        console.log(JSON.stringify(message, null, 2));
+      } while (message.generated_text === '');
+      setWaiting(false);
+      appendMessage('bot', message.generated_text);
       setHistory((prevHistory) => [
         ...prevHistory,
         {
           actor: 'user',
           message: text,
         },
+        {
+          actor: 'bot',
+          message: message.generated_text,
+        },
       ]);
-      setWaiting(true);
-      let message;
-      do {
-        const systemPrompt =
-          'You are a professional medical assistant, here is a conversation between you and a patient. Respond to the patient in a professional manner.\n\n';
-
-        const conversation = history
-          .map((message) => {
-            return `${message.actor}: ${message.message}`;
-          })
-          .join('\n');
-
-        message = await generateMessage({
-          inputs: systemPrompt + conversation,
-        });
-        console.log(JSON.stringify(message, null, 2));
-      } while (message.generated_text === '');
-      setWaiting(false);
-      appendMessage('bot', message.generated_text);
     }
   }
 
